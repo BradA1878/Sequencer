@@ -1,0 +1,47 @@
+function _1(callback){
+	console.log("1");
+	setTimeout(function(){
+		callback();
+	}, 1000);
+}
+function _2(callback){
+	console.log("2");
+	setTimeout(function(){
+		callback();
+	}, 5000);
+}
+function _3(callback){
+	console.log("3");
+	sequence.start(a).next(b).next(c).next(d).finish(function(){
+		e(callback);
+	});
+}
+function _4(){
+	console.log("4");
+}
+function a(callback){
+	console.log("	a");
+	callback();
+}
+function b(callback){
+	console.log("	b");
+	setTimeout(function(){
+		callback();
+	}, 1000);
+}
+function c(callback){
+	console.log("	c");
+	callback();
+}
+function d(callback){
+	console.log("	d");
+	setTimeout(function(){
+		callback();
+	}, 1000);
+}
+function e(callback){
+	console.log("	e");
+	callback();
+}
+
+sequence.start(_1).next(_2).next(_3).finish(_4);
