@@ -1,7 +1,7 @@
 var sequence = function() {
     var _s = function() {
-        var _i = this, _a = [], _end = null, _next = function() {
-            if (_a.length) {
+        var _i = this, _a = [], _end = null, _next = function(fail) {
+            if (_a.length && !fail) {
                 var o = _a.shift();
                 o.args ? o.func.apply(o.scope, o.args.concat([o.callback])) : o.func(o.callback);
             } else {
@@ -22,8 +22,11 @@ var sequence = function() {
             _end = {func:f, args:a, scope:s};
             _next();
         };
+        this.failed = function(f, a, s) {
+            if(arguments.length) _end = {func:f, args:a, scope:s};
+            _next(true);
+        };
     };
-    return {start:function(f, a, s) {
-        return (new _s).start(f, a, s);
-    }};
+    var i = (new _s);
+    return { start:function(f, a, s){return i.start(f, a, s);}, failed:function(f, a, s){i.failed(f, a, s)} };
 }();
