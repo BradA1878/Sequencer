@@ -1,4 +1,4 @@
-var sequence = function() {
+var sequence = (function() {
     var _s = function() {
         var _i = this, _a = [], _end = null, _next = function(fail) {
             if (_a.length && !fail) {
@@ -27,6 +27,13 @@ var sequence = function() {
             _next(true);
         };
     };
-    var i = (new _s);
-    return { start:function(f, a, s){return i.start(f, a, s);}, failed:function(f, a, s){i.failed(f, a, s)} };
-}();
+    return {
+        start: function(f, a, s){
+            var _i = new _s;
+            _i.failed = function(_f, _a, _s){
+                _i.failed(_f, _a, _s);
+            };
+            return _i.start(f, a, s);
+        }
+    };
+})();
